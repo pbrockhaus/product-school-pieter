@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BU Pay &amp; Credit roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#EEF1F5;
+  --surface:#FFFFFF;
+  --surface-2:#F6F8FB;
+  --ink:#14213A;
+  --ink-2:#4A5770;
+  --line:#D5DBE5;
+  --now:#14213A;
+  --now-ink:#FFFFFF;
+  --q-win:#1E8A5A;   --q-win-bg:#DDF2E8;
+  --q-bet:#3F55C9;   --q-bet-bg:#E1E6FB;
+  --q-fill:#A86E00;  --q-fill-bg:#F8ECD2;
+  --q-pit:#B83A33;   --q-pit-bg:#F7DEDC;
+  --focus:#3F55C9;
+  --font:"Schibsted Grotesk", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0F1726;
+    --surface:#172236;
+    --surface-2:#1C2940;
+    --ink:#E8EDF5;
+    --ink-2:#A3B0C5;
+    --line:#2C3B55;
+    --now:#E8EDF5;
+    --now-ink:#0F1726;
+    --q-win:#5FD39C;  --q-win-bg:#163829;
+    --q-bet:#93A3FF;  --q-bet-bg:#1E2850;
+    --q-fill:#F0B94A; --q-fill-bg:#3A2D10;
+    --q-pit:#FF8A80;  --q-pit-bg:#43201D;
+    --focus:#93A3FF;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 24px 64px}
+
+/* Header */
+header.top{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin-bottom:28px}
+.brand{font-weight:700;font-size:15px;color:var(--ink-2);margin:0 0 6px}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-0.03em;margin:0;font-weight:800;max-width:14ch}
+.lede{color:var(--ink-2);max-width:60ch;margin:14px 0 0;font-size:17px}
+.facts{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-width:120px}
+.fact dt{font-size:13px;color:var(--ink-2)}
+.fact dd{margin:0;font-weight:700;font-size:16px}
+.fact [contenteditable]{outline:none;border-bottom:1px dashed var(--ink-2)}
+.fact [contenteditable]:focus{border-bottom-color:var(--focus)}
+.fact small{display:block;font-weight:400;color:var(--ink-2);font-size:12px}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  padding:14px 0;border-top:1px solid var(--line);margin-bottom:22px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend span.lbl{font-size:14px;color:var(--ink-2);margin-right:4px}
+.chip{font:inherit;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;
+  border-radius:999px;padding:6px 12px;border:1.5px solid transparent;cursor:pointer;
+  background:var(--surface);color:var(--ink)}
+.chip .dot{width:10px;height:10px;border-radius:50%}
+.chip[aria-pressed="false"]{opacity:.45;text-decoration:line-through}
+.chip.win .dot{background:var(--q-win)} .chip.bet .dot{background:var(--q-bet)}
+.chip.fill .dot{background:var(--q-fill)} .chip.pit .dot{background:var(--q-pit)}
+.btn{font:inherit;font-size:14px;font-weight:600;border-radius:10px;padding:8px 14px;cursor:pointer;
+  background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:hover{border-color:var(--ink-2)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* Lanes */
+.board{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:18px;align-items:stretch}
+.lane{border-radius:18px;padding:18px;background:var(--surface-2);border:1px solid var(--line);
+  display:flex;flex-direction:column;min-height:240px;transition:box-shadow .15s}
+.lane.now{background:var(--now);color:var(--now-ink);border-color:var(--now)}
+.lane-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:8px}
+.lane-head h2{margin:0;font-size:26px;font-weight:800;letter-spacing:-0.02em}
+.lane-head p{margin:0;font-size:14px;opacity:.75}
+.count{font-size:14px;font-weight:700;opacity:.75;white-space:nowrap}
+.drop{flex:1;display:flex;flex-direction:column;gap:12px;border-radius:12px;min-height:80px}
+.drop.over{box-shadow:0 0 0 2px var(--focus) inset;background:color-mix(in srgb, var(--focus) 8%, transparent)}
+.lane.now .drop.over{box-shadow:0 0 0 2px var(--now-ink) inset}
+.empty{font-size:14px;opacity:.6;padding:18px;border:1.5px dashed currentColor;border-radius:12px;text-align:center}
+
+/* Cards */
+.card{background:var(--surface);color:var(--ink);border-radius:14px;padding:16px 16px 14px 20px;
+  border:1px solid var(--line);position:relative;cursor:grab}
+.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:5px;border-radius:0 4px 4px 0;background:var(--qc)}
+.card.dragging{opacity:.4}
+.card.hidden{display:none}
+.card .row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card h3{margin:0;font-size:18px;line-height:1.25;font-weight:700;letter-spacing:-0.01em}
+.card .id{font-weight:800;color:var(--ink-2);margin-right:6px}
+.badge{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;white-space:nowrap;
+  color:var(--qc);background:var(--qbg)}
+.card p.why{margin:10px 0 12px;color:var(--ink-2);font-size:15px;max-width:60ch}
+.card p.why strong{color:var(--ink);font-weight:600}
+.ref{font-weight:700;font-size:13px;padding:1px 6px;border-radius:6px;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.card .foot{display:flex;justify-content:flex-end}
+.card select{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink);cursor:pointer}
+.q-win{--qc:var(--q-win);--qbg:var(--q-win-bg)}
+.q-bet{--qc:var(--q-bet);--qbg:var(--q-bet-bg)}
+.q-fill{--qc:var(--q-fill);--qbg:var(--q-fill-bg)}
+.q-pit{--qc:var(--q-pit);--qbg:var(--q-pit-bg)}
+
+/* Cut list */
+.cut{margin-top:36px;border-radius:18px;border:1.5px dashed var(--line);padding:20px 20px 8px;background:transparent}
+.cut .lane-head h2{font-size:24px}
+.cut .drop{gap:0}
+.cut .card{border:none;border-top:1px solid var(--line);border-radius:0;background:transparent;padding:16px 0 14px 20px}
+.cut .card:first-child{border-top:none}
+.cut .card h3{text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--ink-2)}
+.cut .card::before{top:18px;bottom:18px}
+
+footer{margin-top:28px;font-size:13px;color:var(--ink-2);max-width:80ch}
+
+@media (max-width: 920px){
+  .board{grid-template-columns:1fr}
+  header.top{grid-template-columns:1fr}
+  .facts{justify-content:flex-start}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff}
+  .toolbar,.card .foot{display:none}
+  .lane,.cut{break-inside:avoid}
+  .card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="brand">BU Pay &amp; Credit</p>
+      <h1>Get the card through the till</h1>
+      <p class="lede">Show people why a card was declined, use those reasons to fix in-store declines with the processor, then close the phone wallet gap.</p>
+    </div>
+    <dl class="facts">
+      <div class="fact">
+        <dt>Team</dt>
+        <dd><span contenteditable="true" spellcheck="false" id="team" aria-label="Team size, editable">6 people</span>
+          <small>Assumed, click to edit</small></dd>
+      </div>
+      <div class="fact">
+        <dt>In scope</dt>
+        <dd id="inScope">3 features</dd>
+      </div>
+      <div class="fact">
+        <dt>Cut</dt>
+        <dd id="cutCount">5 features</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div class="toolbar" role="toolbar" aria-label="Roadmap controls">
+    <div class="legend" id="legend">
+      <span class="lbl">Show quadrant:</span>
+      <button class="chip win" data-q="win" aria-pressed="true"><span class="dot"></span>Quick win</button>
+      <button class="chip bet" data-q="bet" aria-pressed="true"><span class="dot"></span>Big bet</button>
+      <button class="chip fill" data-q="fill" aria-pressed="true"><span class="dot"></span>Fill-in</button>
+      <button class="chip pit" data-q="pit" aria-pressed="true"><span class="dot"></span>Money pit</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="print">Print</button>
+      <button class="btn" id="reset">Reset board</button>
+    </div>
+  </div>
+
+  <main class="board" id="board">
+    <section class="lane now" data-lane="now" aria-labelledby="h-now">
+      <div class="lane-head"><div><h2 id="h-now">Now</h2><p>This sprint</p></div><span class="count" data-count="now"></span></div>
+      <div class="drop" data-lane="now"></div>
+    </section>
+    <section class="lane" data-lane="next" aria-labelledby="h-next">
+      <div class="lane-head"><div><h2 id="h-next">Next</h2><p>The following sprints</p></div><span class="count" data-count="next"></span></div>
+      <div class="drop" data-lane="next"></div>
+    </section>
+    <section class="lane" data-lane="later" aria-labelledby="h-later">
+      <div class="lane-head"><div><h2 id="h-later">Later</h2><p>Backlog</p></div><span class="count" data-count="later"></span></div>
+      <div class="drop" data-lane="later"></div>
+    </section>
+  </main>
+
+  <section class="cut" data-lane="cut" aria-labelledby="h-cut">
+    <div class="lane-head"><div><h2 id="h-cut">Cut list</h2><p>Considered and left out, with the reason</p></div><span class="count" data-count="cut"></span></div>
+    <div class="drop" data-lane="cut"></div>
+  </section>
+
+  <footer>
+    Quadrants plot impact against effort: quick win (high impact, low effort), big bet (high impact, high effort), fill-in (low impact, low effort), money pit (low impact, high effort). Drag a card, or use its menu, to move it between lanes. Changes last until you reload or reset.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var QUADS = {
+    win:{label:"Quick win", cls:"q-win"},
+    bet:{label:"Big bet", cls:"q-bet"},
+    fill:{label:"Fill-in", cls:"q-fill"},
+    pit:{label:"Money pit", cls:"q-pit"}
+  };
+  var LANES = [["now","Now"],["next","Next"],["later","Later"],["cut","Cut list"]];
+
+  var INITIAL = [
+    {id:"B1", lane:"now", q:"win",
+     name:"Decline reason and retry hint shown in the app",
+     why:"It tackles the moment of misery head on (N-06, T-101) and gives us the decline reasons we need to target the fix."},
+    {id:"B6", lane:"next", q:"bet",
+     name:"Fix in-store declines at pharmacy, fuel and grocery terminals with the processor",
+     why:"It is the only feature that lowers the decline rate itself (8.8% to 8.9% in these categories), guided by B1’s reason codes and without loosening risk rules."},
+    {id:"B2", lane:"later", q:"win",
+     name:"Add to phone wallet straight from the approval screen",
+     why:"It is cheap, and a third of activated cards never reach the wallet (T-102), so in-store use stays blocked without it."},
+    {id:"B3", lane:"cut", q:"bet",
+     name:"One balance view for card and regular pay later orders",
+     why:"The pain is real (T-103, N-07), but it comes after the till and touches the ledger."},
+    {id:"B4", lane:"cut", q:"pit",
+     name:"Choose pay now or pay later per purchase after paying",
+     why:"It doesn’t help at the till, and changing repayment after purchase puts the repayment guardrail at risk."},
+    {id:"B5", lane:"cut", q:"fill",
+     name:"Offers from partner merchants inside the card app",
+     why:"It is a Sales ask that does nothing for a card declined at a bakery."},
+    {id:"B7", lane:"cut", q:"bet",
+     name:"Physical card",
+     why:"It helps people without a phone wallet pay in store, but issuing takes months. Revisit if B2 doesn’t close the wallet gap."},
+    {id:"B8", lane:"cut", q:"pit",
+     name:"One due date for card and pay later orders",
+     why:"It fixes the two due dates (T-104), but nothing at the till, and it likely needs a credit policy change (N-11)."}
+  ];
+
+  var items = clone(INITIAL);
+  var hiddenQ = {};
+  var dragId = null;
+
+  function clone(a){return a.map(function(o){return Object.assign({},o);});}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function decorate(text){
+    return esc(text)
+      .replace(/\b([NT]-\d{2,3})\b/g,'<span class="ref">$1</span>')
+      .replace(/\b(B\d)(’s)?\b/g,'<strong>$1$2</strong>');
+  }
+  function plural(n){return n + (n===1?" feature":" features");}
+
+  function render(){
+    document.querySelectorAll(".drop").forEach(function(d){d.innerHTML="";});
+    var counts = {now:0,next:0,later:0,cut:0};
+    items.forEach(function(it){
+      counts[it.lane]++;
+      var q = QUADS[it.q];
+      var el = document.createElement("article");
+      el.className = "card " + q.cls + (hiddenQ[it.q] ? " hidden" : "");
+      el.draggable = true;
+      el.dataset.id = it.id;
+      var opts = LANES.map(function(l){
+        return '<option value="'+l[0]+'"'+(l[0]===it.lane?" selected":"")+'>'+l[1]+'</option>';
+      }).join("");
+      el.innerHTML =
+        '<div class="row"><h3><span class="id">'+it.id+'</span>'+esc(it.name)+'</h3>'+
+        '<span class="badge">'+q.label+'</span></div>'+
+        '<p class="why">'+decorate(it.why)+'</p>'+
+        '<div class="foot"><label><span class="sr" style="position:absolute;left:-9999px">Move '+it.id+' to</span>'+
+        '<select data-move="'+it.id+'" aria-label="Move '+it.id+' to">'+opts+'</select></label></div>';
+      document.querySelector('.drop[data-lane="'+it.lane+'"]').appendChild(el);
+    });
+    document.querySelectorAll(".drop").forEach(function(d){
+      if(!d.children.length){
+        var e = document.createElement("div");
+        e.className = "empty";
+        e.textContent = d.dataset.lane === "cut" ? "Nothing cut. Drag a card here to cut it." : "Drag a card here to plan it.";
+        d.appendChild(e);
+      }
+    });
+    Object.keys(counts).forEach(function(k){
+      document.querySelector('[data-count="'+k+'"]').textContent = counts[k];
+    });
+    document.getElementById("inScope").textContent = plural(counts.now+counts.next+counts.later);
+    document.getElementById("cutCount").textContent = plural(counts.cut);
+  }
+
+  function move(id, lane, beforeId){
+    var idx = items.findIndex(function(i){return i.id===id;});
+    if(idx<0) return;
+    var it = items.splice(idx,1)[0];
+    it.lane = lane;
+    var at = beforeId ? items.findIndex(function(i){return i.id===beforeId;}) : -1;
+    if(at<0){
+      var last = -1;
+      items.forEach(function(i,n){ if(i.lane===lane) last=n; });
+      items.splice(last+1,0,it);
+    } else items.splice(at,0,it);
+    render();
+  }
+
+  document.addEventListener("dragstart",function(e){
+    var c = e.target.closest && e.target.closest(".card");
+    if(!c) return;
+    dragId = c.dataset.id;
+    c.classList.add("dragging");
+    e.dataTransfer.effectAllowed = "move";
+    try{e.dataTransfer.setData("text/plain",dragId);}catch(_){}
+  });
+  document.addEventListener("dragend",function(){
+    dragId = null;
+    document.querySelectorAll(".over,.dragging").forEach(function(n){n.classList.remove("over","dragging");});
+  });
+  document.querySelectorAll(".drop").forEach(function(d){
+    d.addEventListener("dragover",function(e){ if(dragId){e.preventDefault(); d.classList.add("over");} });
+    d.addEventListener("dragleave",function(e){ if(!d.contains(e.relatedTarget)) d.classList.remove("over"); });
+    d.addEventListener("drop",function(e){
+      e.preventDefault(); d.classList.remove("over");
+      if(!dragId) return;
+      var target = e.target.closest(".card");
+      var beforeId = null;
+      if(target && target.dataset.id!==dragId){
+        var r = target.getBoundingClientRect();
+        if(e.clientY < r.top + r.height/2) beforeId = target.dataset.id;
+        else {
+          var nxt = target.nextElementSibling;
+          beforeId = nxt && nxt.classList.contains("card") ? nxt.dataset.id : null;
+        }
+      }
+      move(dragId, d.dataset.lane, beforeId);
+    });
+  });
+
+  document.addEventListener("change",function(e){
+    if(e.target.matches("select[data-move]")){
+      var id = e.target.dataset.move;
+      move(id, e.target.value, null);
+      var s = document.querySelector('select[data-move="'+id+'"]');
+      if(s) s.focus();
+    }
+  });
+
+  document.getElementById("legend").addEventListener("click",function(e){
+    var b = e.target.closest(".chip"); if(!b) return;
+    var q = b.dataset.q;
+    hiddenQ[q] = !hiddenQ[q];
+    b.setAttribute("aria-pressed", String(!hiddenQ[q]));
+    render();
+  });
+
+  document.getElementById("reset").addEventListener("click",function(){
+    items = clone(INITIAL); hiddenQ = {};
+    document.querySelectorAll(".chip").forEach(function(b){b.setAttribute("aria-pressed","true");});
+    render();
+  });
+  document.getElementById("print").addEventListener("click",function(){window.print();});
+
+  document.getElementById("team").addEventListener("keydown",function(e){
+    if(e.key==="Enter"){e.preventDefault(); e.target.blur();}
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
